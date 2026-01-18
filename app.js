@@ -493,11 +493,12 @@ function renderIPFields() {
 
 /** Editor inline sul testo "cur/max" per HP/MP */
 function attachInlineEditor(which, textEl, barEl, hitEl) {
-  const obj = state.points[which];
-
   const startEdit = () => {
     if (!textEl || !barEl || !hitEl) return;
     if (textEl.querySelector("input")) return;
+
+    // prendi sempre l'oggetto aggiornato
+    const obj = state.points[which];
 
     barEl.classList.add("is-editing");
 

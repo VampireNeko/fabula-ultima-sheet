@@ -434,7 +434,7 @@ input[readonly].modified{
 
 .hudBar{
   position:relative;
-  height: 30px;
+  height: 32px;
   border-radius: 10px;
   background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.26));
   border: 1px solid var(--hud-border);
@@ -497,8 +497,8 @@ input[readonly].modified{
   left:50%;
   top:50%;
   transform: translate(-50%, -50%);
-  width: 72px;
-  height: 18px;
+  width: 34px;
+  height: 12px;
   border-radius: 7px;
   z-index: 5;
   pointer-events:auto;
@@ -519,7 +519,7 @@ input[readonly].modified{
 
 /* Input inline (quando edit attivo) */
 .hudValue input{
-  width: 120px;
+  width: 70px;
   max-width: 85%;
   text-align:center;
   font: inherit;
