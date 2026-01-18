@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fabula Ultima — Scheda Personaggio</title>
+
+  <!-- Stili principali -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- =========================================================
+       TOP BAR (nuovo, export, import, indicatore salvataggio)
+       ========================================================= -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <button id="btnNew" type="button">Nuovo</button>
+      <button id="btnExport" type="button">Esporta .txt</button>
+
+      <label class="filebtn">
+        Importa .txt
+        <input
+          id="fileImport"
+          type="file"
+          accept=".txt,.json,text/plain,application/json"
+        />
+      </label>
+
+      <span id="saveIndicator" class="indicator">Pronto</span>
+    </div>
+
+    <div class="topbar__right">
+      <small>Autosave locale + Import/Export TXT</small>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       MAIN LAYOUT (2 colonne)
+       ========================================================= -->
+  <main class="sheet">
+    <!-- =======================================================
+         COLONNA SINISTRA
+         ======================================================= -->
+    <section class="col left">
+      <!-- Nome / pronomi -->
+      <div class="row two">
+        <div class="field">
+          <label>NOME:</label>
+          <input data-key="name" type="text" />
+        </div>
+        <div class="field">
+          <label>GENERE:</label>
+          <input data-key="pronouns" type="text" />
+        </div>
+      </div>
+
+      <!-- TRATTI -->
+      <div class="panel">
+        <div class="panel__title">TRATTI</div>
+
+        <div class="row one">
+          <div class="field">
+            <label>IDENTITÀ:</label>
+            <input data-key="identity" type="text" />
+          </div>
+        </div>
+
+        <div class="row two">
+          <div class="field">
+            <label>TEMA:</label>
+            <input data-key="theme" type="text" />
+          </div>
+          <div class="field">
+            <label>ORIGINE</label>
+            <input data-key="origin" type="text" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Difese -->
+      <div class="panel">
+        <div class="panel__title"> </div>
+
+        <div class="row three">
+          <div class="field">
+            <label>INIZIATIVA</label>
+            <input data-key="initiative" type="number" step="1" />
+          </div>
+
+          <div class="field">
+            <label> DIFESA</label>
+            <input data-key="defense" type="number" step="1" />
+          </div>
+
+          <div class="field">
+            <label>DIFESA M.</label>
+            <input data-key="magicDefense" type="number" step="1" />
+          </div>
+        </div>
+      </div>
+
+      <!-- =======================================================
+           Legami (dinamici + collassabili + cestino)
+           ======================================================= -->
+      <div class="panel">
+        <div class="panelHead">
+          <!-- Toggle (collassa/espandi) -->
+          <button
+            id="btnToggleBonds"
+            class="panelToggle"
+            type="button"
+            aria-expanded="true"
+            title="Mostra/Nascondi Bonds"
+          >
+            <span class="chev" aria-hidden="true">▾</span>
+            <span class="panel__title noMargin">LEGAMI</span>
+          </button>
+
+          <!-- Aggiungi legame -->
+          <button id="btnAddBond" type="button" class="btnSmall">
+            + Aggiungi Legame
+          </button>
+        </div>
+
+        <!-- Corpo collassabile -->
+        <div id="bondsBody" class="collapsibleBody">
+          <div id="bondsList" class="bonds"></div>
+          
+        </div>
+        <div class="hudHint">Tieni premuto il cestino per eliminare il Bound.</div>
+      </div>
+
+      <!-- =======================================================
+           EQUIPMENT (checkbox + tabella Equipped/Description)
+           ======================================================= -->
+      <div class="panel">
+        <div class="panel__title">EQUIPAGGIAMENTO</div>
+
+        <!-- checkbox sotto al titolo come nel pdf-->   
+
+<!--    Momentaneamente rimosso
+        <div class="equipTypes">
+          <label><input data-key="equipTypes.martialArmor" type="checkbox" /> Martial Armor</label>
+          <label><input data-key="equipTypes.martialShields" type="checkbox" /> Martial Shields</label>
+          <label><input data-key="equipTypes.martialMelee" type="checkbox" /> Martial Melee Weapons</label>
+          <label><input data-key="equipTypes.martialRanged" type="checkbox" /> Martial Ranged Weapons</label>
+        </div>
+-->
+
+        <!-- tabella degli equipaggiamenti -->
+        <div class="equipTable">
+<!--                                              Superfluo ?
+          <div class="equipHead">EQUIPPED</div>
+          <div class="equipHead">DESCRIZIONE</div>
+-->
+          <input data-key="equipment.mainHand.item" class="equipItem" type="text" placeholder="Main-Hand" />
+          <textarea data-key="equipment.mainHand.desc" class="equipDesc"></textarea>
+
+          <input data-key="equipment.offHand.item" class="equipItem" type="text" placeholder="Off-Hand" />
+          <textarea data-key="equipment.offHand.desc" class="equipDesc"></textarea>
+
+          <input data-key="equipment.armor.item" class="equipItem" type="text" placeholder="Armor" />
+          <textarea data-key="equipment.armor.desc" class="equipDesc"></textarea>
+
+          <input data-key="equipment.accessory.item" class="equipItem" type="text" placeholder="Accessory" />
+          <textarea data-key="equipment.accessory.desc" class="equipDesc"></textarea>
+
+          <input data-key="equipment.extra.item" class="equipItem" type="text" placeholder="Extra" />
+          <textarea data-key="equipment.extra.desc" class="equipDesc"></textarea>
+        </div>
+      </div>
+
+      <!-- Note / Zenit -->
+      <div class="panel">
+        <div class="panel__title">ZAINO & NOTE</div>
+        <textarea class="bigNotes" data-key="backpackNotes"></textarea>
+
+        <div class="row two zenitRow">
+          <div></div>
+          <div class="field zenitField">
+            <label>ZENIT</label>
+             <!-- SVG (Dobloni) -->
+            <div class="zenitInputWrap">
+              <span class="zenitIcon" aria-hidden="true">
+                <svg viewBox="0 0 64 64">
+                  <!-- Moneta dietro -->
+                  <ellipse cx="26" cy="20" rx="14" ry="8" fill="#f6c445"/>
+                  <ellipse cx="26" cy="18" rx="14" ry="8" fill="#ffe08a"/>
+                  <ellipse cx="26" cy="20" rx="14" ry="8" fill="none" stroke="#d4a017" stroke-width="2"/>
+
+                  <!-- Moneta centrale -->
+                  <ellipse cx="36" cy="30" rx="14" ry="8" fill="#f2b705"/>
+                  <ellipse cx="36" cy="28" rx="14" ry="8" fill="#ffeb9e"/>
+                  <ellipse cx="36" cy="30" rx="14" ry="8" fill="none" stroke="#c99700" stroke-width="2"/>
+
+                  <!-- Moneta frontale -->
+                  <ellipse cx="30" cy="40" rx="14" ry="8" fill="#f1a800"/>
+                  <ellipse cx="30" cy="38" rx="14" ry="8" fill="#fff2b8"/>
+                  <ellipse cx="30" cy="40" rx="14" ry="8" fill="none" stroke="#b8860b" stroke-width="2"/>
+                </svg>
+              </span>
+
+      <input data-key="zenit" type="number" step="1" />
+    </div>
+  </div>
+</div>
+</div>
+
+    </section>
+
+    <!-- =======================================================
+         COLONNA DESTRA
+         ======================================================= -->
+    <section class="col right">
+      <!-- Portrait -->
+      <div class="portraitWrap">
+        <div class="portrait">
+          <label class="portraitLabel">PORTRAIT URL</label>
+          <input data-key="portraitUrl" type="url" placeholder="https://..." />
+
+          <div class="portraitPreview">
+            <img id="portraitImg" alt="portrait preview" />
+          </div>
+        </div>
+      </div>
+
+      <!-- =======================================================
+           ATTRIBUTI & STATI
+           ======================================================= -->
+      <div class="panel green">
+ <!--       <div class="panel__title center">ATTRIBUTI</div> -->
+
+        <div class="attrTable">
+          <div class="attrHead"></div>
+          <div class="attrHead">BASE</div>
+          <div class="attrHead">CORRENTE</div>
+
+          <div class="attrName">DESTREZZA</div>
+          <select data-key="attributes.dex.base">
+            <option value="d20">d20</option>
+            <option value="d12">d12</option>
+            <option value="d10">d10</option>
+            <option value="d8">d8</option>
+            <option value="d6">d6</option>
+          </select>
+          <input data-key="attributes.dex.current" data-attr-current="dex" type="text" readonly />
+
+          <div class="attrName">INTUITO</div>
+          <select data-key="attributes.ins.base">
+            <option value="d20">d20</option>
+            <option value="d12">d12</option>
+            <option value="d10">d10</option>
+            <option value="d8">d8</option>
+            <option value="d6">d6</option>
+          </select>
+          <input data-key="attributes.ins.current" data-attr-current="ins" type="text" readonly />
+
+          <div class="attrName">VIGORE</div>
+          <select data-key="attributes.mig.base">
+            <option value="d20">d20</option>
+            <option value="d12">d12</option>
+            <option value="d10">d10</option>
+            <option value="d8">d8</option>
+            <option value="d6">d6</option>
+          </select>
+          <input data-key="attributes.mig.current" data-attr-current="mig" type="text" readonly />
+
+          <div class="attrName">VOLONTÀ</div>
+          <select data-key="attributes.wlp.base">
+            <option value="d20">d20</option>
+            <option value="d12">d12</option>
+            <option value="d10">d10</option>
+            <option value="d8">d8</option>
+            <option value="d6">d6</option>
+          </select>
+          <input data-key="attributes.wlp.current" data-attr-current="wlp" type="text" readonly />
+        </div>
+
+        <!-- Stati -->
+        <div class="statusChecks">
+          <label><input data-key="status.slow" type="checkbox" /> LENTO</label>
+          <label><input data-key="status.dazed" type="checkbox" /> CONFUSO</label>
+          <label><input data-key="status.weak" type="checkbox" /> DEBOLE</label>
+          <label><input data-key="status.shaken" type="checkbox" /> SCOSSO</label>
+
+          <div class="statusMajor">
+            <label class="majorStatus">
+              <input data-key="status.poisoned" type="checkbox" /> AVVELENATO
+            </label>
+            <label class="majorStatus">
+              <input data-key="status.enraged" type="checkbox" /> FURENTE
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- =======================================================
+           HP / MP HUD + IP
+           ======================================================= -->
+      <div class="panel">
+        <div class="panel__title center"> </div>
+
+        <div class="pointsHud" role="group" aria-label="HUD HP MP">
+          <!-- HP -->
+          <div class="hudRow">
+            <div class="hudLabel hp">HP</div>
+            <div class="hudBar is-hp" id="hpBar">
+              <div class="hudFill hp" id="hpFill"></div>
+              <div class="hudValue" id="hpText">0/0</div>
+
+              <!-- area piccola per aprire editor -->
+              <div class="hudEditHit" id="hpHit" title="Clicca per modificare"></div>
+
+              <!-- slider invisibile sopra la barra -->
+              <input class="hudSlider" id="hpSlider" type="range" min="0" max="0" value="0" step="1" />
+            </div>
+          </div>
+
+          <!-- MP -->
+          <div class="hudRow">
+            <div class="hudLabel mp">MP</div>
+            <div class="hudBar is-mp" id="mpBar">
+              <div class="hudFill mp" id="mpFill"></div>
+              <div class="hudValue" id="mpText">0/0</div>
+              <div class="hudEditHit" id="mpHit" title="Clicca per modificare></div>
+              <input class="hudSlider" id="mpSlider" type="range" min="0" max="0" value="0" step="1" />
+            </div>
+          </div>
+        </div>
+
+        <div class="hudHint">Trascina HP/MP per cambiare il valore. Clicca sul testo per modificare v.max.</div>
+
+        <!-- IP classico -->
+        <div class="hpi ipOnly">
+          <div class="hpiHead"></div>
+          <div class="hpiHead">MAX</div>
+          <div class="hpiHead">CURRENT</div>
+
+          <div class="hpiName ip">IP</div>
+          <input data-key="points.ip.max" type="number" step="1" />
+          <input data-key="points.ip.current" type="number" step="1" />
+        </div>
+
+        <div class="ipActions">
+  <button type="button"
+          class="potionBtn red"
+          id="btnPotionHP"
+          title="Rimedio +50 Hp -3 IP"
+          aria-label="Rimedio +50 HP -3 IP">
+    <!-- Pozione rossa -->
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M24 6h16v8l-6 6v6c0 4 2 6 6 10 4 4 6 8 6 14 0 10-8 18-18 18S16 60 16 50c0-6 2-10 6-14 4-4 6-6 6-10v-6l-6-6V6z"
+            fill="currentColor" opacity=".25"/>
+      <path d="M28 14h8v10l6 8c3 4 4 7 4 12 0 8-6 14-14 14S18 52 18 44c0-5 1-8 4-12l6-8V14z"
+            fill="currentColor"/>
+      <path d="M24 6h16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <button type="button"
+          class="potionBtn blue"
+          id="btnPotionMP"
+          title="Elixir +50 Mp -3 IP"
+          aria-label="Elixir +50 MP -3 IP">
+    <!-- Pozione blu -->
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M24 6h16v8l-6 6v6c0 4 2 6 6 10 4 4 6 8 6 14 0 10-8 18-18 18S16 60 16 50c0-6 2-10 6-14 4-4 6-6 6-10v-6l-6-6V6z"
+            fill="currentColor" opacity=".25"/>
+      <path d="M28 14h8v10l6 8c3 4 4 7 4 12 0 8-6 14-14 14S18 52 18 44c0-5 1-8 4-12l6-8V14z"
+            fill="currentColor"/>
+      <path d="M24 6h16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <button type="button"
+          class="potionBtn yellow"
+          id="btnPotionCure"
+          title="Antidoto: rimuovi 1 status -2 IP"
+          aria-label="Antidoto: rimuovi 1 status -2 IP">
+    <!-- Pozione gialla -->
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M24 6h16v8l-6 6v6c0 4 2 6 6 10 4 4 6 8 6 14 0 10-8 18-18 18S16 60 16 50c0-6 2-10 6-14 4-4 6-6 6-10v-6l-6-6V6z"
+            fill="currentColor" opacity=".25"/>
+      <path d="M28 14h8v10l6 8c3 4 4 7 4 12 0 8-6 14-14 14S18 52 18 44c0-5 1-8 4-12l6-8V14z"
+            fill="currentColor"/>
+      <path d="M24 6h16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <!-- piccolo "segno" antidoto -->
+      <path d="M26 44h12M32 38v12" stroke="rgba(0,0,0,.35)" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
+
+
+
+      </div>
+
+      <!-- =======================================================
+           Classi - Da sistemare, farsi spiegare bene le regole
+           ======================================================= -->
+      <div class="panel">
+        <div class="panel__title center">CHARACTER LEVEL</div>
+
+        <div class="classBlock">
+          <div class="row two">
+            <div class="field">
+              <label>CLASS / LEVEL</label>
+              <input data-key="classes.0.classLevel" type="text" placeholder="Es. Elementalist 3" />
+            </div>
+            <div class="field">
+              <label>FREE BENEFITS</label>
+              <input data-key="classes.0.freeBenefits" type="text" />
+            </div>
+          </div>
+          <label class="miniLabel">SKILL INFORMATION</label>
+          <textarea data-key="classes.0.skills"></textarea>
+        </div>
+
+        <div class="classBlock">
+          <div class="row two">
+            <div class="field">
+              <label>CLASS / LEVEL</label>
+              <input data-key="classes.1.classLevel" type="text" />
+            </div>
+            <div class="field">
+              <label>FREE BENEFITS</label>
+              <input data-key="classes.1.freeBenefits" type="text" />
+            </div>
+          </div>
+          <label class="miniLabel">SKILL INFORMATION</label>
+          <textarea data-key="classes.1.skills"></textarea>
+        </div>
+
+        <div class="classBlock">
+          <div class="row two">
+            <div class="field">
+              <label>CLASS / LEVEL</label>
+              <input data-key="classes.2.classLevel" type="text" />
+            </div>
+            <div class="field">
+              <label>FREE BENEFITS</label>
+              <input data-key="classes.2.freeBenefits" type="text" />
+            </div>
+          </div>
+          <label class="miniLabel">SKILL INFORMATION</label>
+          <textarea data-key="classes.2.skills"></textarea>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>
+      Suggerimento: usa <b>Esporta .txt</b> per salvare e/o condividere il personaggio; l’app salva anche automaticamente in locale.
+    </small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
+<!-- =======================================================
+     Da Implementare:
+     Livelli
+     Exp bar
+     aumenti automatici ad hp ed mp dopo il levelup
+     Orologi e rituali
+     un campo note e lore del personaggio (magari in un tab dedicato ?)
+     ======================================================= -->

@@ -1,0 +1,705 @@
+/* ============================================================
+   BASE
+   ============================================================ */
+:root{
+  --bg: #f7f9fb;
+  --panel: #ffffff;
+  --ink: #1b1f24;
+  --muted: #6b7280;
+  --line: #d9e1ea;
+  --accent: #1f4b41;
+  --accent2: #e8f3ef;
+  --radius: 14px;
+
+  /* HUD colors */
+  --hud-border: rgba(0,0,0,.10);
+  --hp: #e11b22;
+  --hp-dark: #8a0d12;
+  --mp: #2b5bff;
+  --mp-dark: #142a7a;
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar button,
+.filebtn{
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.topbar button:hover,
+.filebtn:hover{
+  border-color: #b9c6d3;
+}
+
+.filebtn input{ display:none; }
+
+.indicator{
+  margin-left: 10px;
+  color: var(--muted);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.sheet{
+  max-width: 1250px;
+  margin: 14px auto;
+  padding: 0 12px 22px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 14px;
+}
+
+.col{
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+}
+
+.panel{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+
+.panel.green{
+  background: var(--accent2);
+  border-color: #cfe3dc;
+}
+
+.panel__title{
+  font-weight: 800;
+  letter-spacing: .02em;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.panel__title.center{ text-align:center; }
+.panel__title.noMargin{ margin:0; }
+
+/* Titolo + controlli (bottone add, toggle ecc.) */
+.panelHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btnSmall{
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.btnSmall:hover{
+  border-color: #b9c6d3;
+}
+
+/* ============================================================
+   FORM GRID
+   ============================================================ */
+.row{ display:grid; gap: 10px; }
+.row.one{ grid-template-columns: 1fr; }
+.row.two{ grid-template-columns: 1fr 1fr; }
+.row.three{ grid-template-columns: 1fr 1fr 1fr; }
+
+.field label{
+  display:block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+textarea,
+select{
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 10px;
+  background: #f8fafc;
+  outline: none;
+}
+
+textarea{
+  min-height: 92px;
+  resize: vertical;
+}
+
+.bigNotes{ min-height: 180px; }
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color: #b7c7d6;
+  background: #fff;
+}
+
+input[readonly]{
+  background: #eef2f7;
+  color: #334155;
+}
+
+/* ============================================================
+   Legami (dinamici + collassabili + cestino)
+   ============================================================ */
+
+/* Toggle legami */
+.panelToggle{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.panelToggle .chev{
+  display:inline-block;
+  width: 16px;
+  text-align:center;
+  color: var(--accent);
+  transform: rotate(0deg);
+  transition: transform .18s ease;
+  font-weight: 900;
+}
+
+/* Freccia ruota quando collassato */
+.panelToggle[aria-expanded="false"] .chev{
+  transform: rotate(-90deg);
+}
+
+/* Corpo collassabile */
+.collapsibleBody{ overflow: hidden; }
+.collapsibleBody.is-collapsed{ display:none; }
+
+.bonds{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+}
+
+.bondRow{
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+
+/* input + cestino in header riga */
+.bondTop{
+  display:grid;
+  grid-template-columns: 1fr 34px;
+  gap: 8px;
+  align-items:center;
+  margin-bottom: 8px;
+}
+
+.bondDelete{
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  cursor: pointer;
+  display:grid;
+  place-items:center;
+}
+
+.bondDelete:hover{
+  border-color: #b9c6d3;
+  background: #f8fafc;
+}
+
+.bondDelete svg{
+  width: 18px;
+  height: 18px;
+  opacity: .75;
+}
+
+/* Press & hold feedback sul cestino */
+.bondDelete.is-holding{
+  transform: scale(0.96);
+  filter: brightness(0.95);
+  box-shadow: inset 0 0 0 2px rgba(225, 27, 34, 0.25);
+}
+
+
+.bondChecks{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 10px 14px;
+  color: #223;
+  font-size: 13px;
+}
+
+.bondChecks label{
+  display:flex;
+  gap: 6px;
+  align-items:center;
+}
+
+/* ============================================================
+   EQUIP (checkbox + tabella 2 colonne)
+   ============================================================ */
+.equipTypes{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 10px 14px;
+  margin-bottom: 10px;
+}
+
+.equipTable{
+  display:grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 8px;
+  align-items:start;
+}
+
+.equipHead{
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.equipDesc{
+  min-height: 44px;
+  resize: vertical;
+}
+
+/* ============================================================
+   PORTRAIT
+   ============================================================ */
+.portraitWrap{ display:flex; justify-content:flex-start; }
+
+.portrait{
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+
+.portraitLabel{
+  display:block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.portraitPreview{
+  margin-top: 10px;
+  border: 2px solid #d5dde7;
+  border-radius: 14px;
+  height: 320px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: #f8fafc;
+  overflow:hidden;
+}
+
+.portraitPreview img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:none;
+}
+
+/* ============================================================
+   ATTRIBUTI
+   ============================================================ */
+.attrTable{
+  display:grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 8px;
+  align-items:center;
+}
+
+.attrHead{
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.attrName{
+  font-weight: 800;
+  color: #193a33;
+  font-size: 13px;
+}
+
+/* Evidenzia valore corrente quando diverso dal base */
+input[readonly].modified{
+  border-color: #c49a18;
+  background: #fff7d6;
+  font-weight: 800;
+}
+
+/* ============================================================
+   STATI
+   ============================================================ */
+.statusChecks{
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+.statusMajor{
+  width: 100%;
+  display: flex;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+.majorStatus{
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.6);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.majorStatus input{ margin-right: 6px; }
+
+/* ============================================================
+   HP / MP HUD
+   ============================================================ */
+.pointsHud{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  padding: 10px 10px 8px;
+  background: linear-gradient(180deg, rgba(0,0,0,.035), rgba(0,0,0,.015));
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 12px;
+}
+
+.hudRow{
+  display:grid;
+  grid-template-columns: 44px 1fr;
+  align-items:center;
+  gap: 12px;
+}
+
+.hudLabel{
+  font-weight: 900;
+  letter-spacing: .8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0,0,0,.10);
+}
+
+.hudLabel.hp{ color:#d71b22; }
+.hudLabel.mp{ color:#2b5bff; }
+
+.hudBar{
+  position:relative;
+  height: 30px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.26));
+  border: 1px solid var(--hud-border);
+  overflow:hidden;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.10);
+}
+
+.hudBar::before{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.00));
+  pointer-events:none;
+  z-index: 3;
+}
+
+.hudFill{
+  position:absolute;
+  inset:0;
+  border-radius: 10px;
+  z-index: 1;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.06));
+  width: 0%;
+}
+
+.hudFill.hp{ background: linear-gradient(180deg, var(--hp), var(--hp-dark)); }
+.hudFill.mp{ background: linear-gradient(180deg, var(--mp), var(--mp-dark)); }
+
+/* Slider invisibile sopra la barra: prende drag/click */
+.hudSlider{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  opacity:0;
+  cursor: ew-resize;
+  z-index: 2;
+}
+
+.hudValue{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-weight: 900;
+  font-size: 15px;
+  text-shadow: 0 2px 0 rgba(0,0,0,.35);
+  letter-spacing: .2px;
+  user-select:none;
+  z-index: 4;
+  pointer-events:none;
+  color: #fff;
+}
+
+/* Area piccola per aprire editor (solo hover) */
+.hudEditHit{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 18px;
+  border-radius: 7px;
+  z-index: 5;
+  pointer-events:auto;
+  cursor:text;
+  background: rgba(255,255,255,0);
+  opacity: 0;
+}
+
+.hudBar:hover .hudEditHit{ opacity: 1; }
+
+.hudEditHit:hover{
+  outline: 1px solid rgba(0,0,0,.10);
+  outline-offset: 2px;
+}
+
+.hudBar.is-editing .hudSlider{ pointer-events:none; }
+.hudBar.is-editing .hudEditHit{ pointer-events:none; }
+
+/* Input inline (quando edit attivo) */
+.hudValue input{
+  width: 120px;
+  max-width: 85%;
+  text-align:center;
+  font: inherit;
+  font-weight: 900;
+  color: #fff;
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.30);
+  border-radius: 8px;
+  padding: 2px 8px;
+  outline: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,.15);
+  pointer-events:auto;
+}
+
+.hudHint{
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(0,0,0,.55);
+  user-select:none;
+}
+
+/* ============================================================
+   IP e POZZE
+   ============================================================ */
+.hpi{
+  display:grid;
+  grid-template-columns: 0.9fr 1fr 1fr;
+  gap: 8px;
+  align-items:center;
+}
+
+.hpiHead{
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.hpiName{
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.hpiName.ip{ color:#0f7a6b; }
+
+.ipOnly{
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+/* Pulsanti delle pozze sotto IP */
+.ipActions{
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 36px;
+}
+
+.potionBtn{
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+.potionBtn:hover{
+  border-color: #b9c6d3;
+  background: #f8fafc;
+}
+
+.potionBtn:active{
+  transform: translateY(1px);
+}
+
+.potionBtn svg{
+  width: 24px;
+  height: 24px;
+  pointer-events: none; /* il click resta sul bottone */
+}
+
+/* Colori (solo per l'icona) */
+.potionBtn.red{ color: #e11b22; }
+.potionBtn.blue{ color: #2b5bff; }
+.potionBtn.yellow{ color: #f1a800; }
+
+
+/* ============================================================
+   CLASS BLOCKS
+   ============================================================ */
+.classBlock{
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.classBlock:first-of-type{
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.miniLabel{
+  display:block;
+  margin: 8px 0 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* ============================================================
+   ZENIT
+   ============================================================ */
+.zenitInputWrap{
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.zenitIcon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenitIcon svg{
+  width: 26px;
+  height: 26px;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  max-width: 1250px;
+  margin: 0 auto 18px;
+  padding: 0 12px;
+  color: var(--muted);
+}
+
+/* Tabs */
+.tabs{
+  max-width: 1250px;
+  margin: 10px auto 0;
+  padding: 0 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.tabBtn{
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.tabBtn:hover{
+  border-color: #b9c6d3;
+}
+
+.tabBtn.is-active{
+  background: var(--accent2);
+  border-color: #cfe3dc;
+}
+
+.tabPanel{
+  display: none;
+  max-width: 1250px;
+  margin: 12px auto 18px;
+  padding: 0 12px;
+}
+
+.tabPanel.is-active{
+  display: block;
+}
