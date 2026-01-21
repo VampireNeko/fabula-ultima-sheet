@@ -271,19 +271,19 @@ function renderBonds() {
         <button class="bondDelete"
                 type="button"
                 data-del-bond="${i}"
-                title="Rimuovi questo Bond"
-                aria-label="Rimuovi bond">
+                title="Rimuovi questo Legame"
+                aria-label="Rimuovi Legame">
           ${trashSvg()}
         </button>
       </div>
 
       <div class="bondChecks">
-        <label><input data-key="bonds.${i}.admiration" type="checkbox">Admiration</label>
-        <label><input data-key="bonds.${i}.loyalty" type="checkbox">Loyalty</label>
-        <label><input data-key="bonds.${i}.affection" type="checkbox">Affection</label>
-        <label><input data-key="bonds.${i}.inferiority" type="checkbox">Inferiority</label>
-        <label><input data-key="bonds.${i}.mistrust" type="checkbox">Mistrust</label>
-        <label><input data-key="bonds.${i}.hatred" type="checkbox">Hatred</label>
+        <label><input data-key="bonds.${i}.admiration" type="checkbox">Ammirazione</label>
+        <label><input data-key="bonds.${i}.loyalty" type="checkbox">Lealtà</label>
+        <label><input data-key="bonds.${i}.affection" type="checkbox">Affetto</label>
+        <label><input data-key="bonds.${i}.inferiority" type="checkbox">Inferiorità</label>
+        <label><input data-key="bonds.${i}.mistrust" type="checkbox">Sfiducia</label>
+        <label><input data-key="bonds.${i}.hatred" type="checkbox">Odio</label>
       </div>
     `;
     bondsListEl.appendChild(row);
